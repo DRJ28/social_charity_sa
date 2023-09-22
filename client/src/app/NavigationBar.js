@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Container,
@@ -18,7 +18,7 @@ const roleActions = {
     { href: "FeedBack", display: "Feed Back" },
   ],
   teacher: [
-    { href: "ApproveEnrollment", display: "Approve Enrollment" },
+    { href: "CreateContent", display: "Create Content" },
     { href: "ViewStudents", display: "View Students" },
     { href: "ViewTeachers", display: "View Teachers" },
     { href: "FeedBack", display: "Feed Back" },
@@ -34,21 +34,21 @@ const roleActions = {
 export default function NavigationBar() {
   const dispatch = useDispatch();
   const { userLoginInfo, userDbInfo } = useSelector(({ users }) => users);
-  let currentRole = userDbInfo.role;
-  if (!userDbInfo.ISAPPROVED) {
-    currentRole = "pending";
-  }
+  // const [userRole, setUserRole] = useState(userDbInfo.USER_ROLE || "pending");
+  const userRole = userDbInfo.USER_ROLE;
+  // if (userDbInfo.ISAPPROVED) {
+  //   userRole = "pending";
+  //   // setUserRole("pending");
+  // }
   useEffect(() => {
-    if (currentRole === "pending") {
+    if (userDbInfo.ISAPPROVED !== "approved") {
       dispatch(setAppNavigation("UserProfile"));
     } else {
       dispatch(
-        setAppNavigation(
-          `${currentRole[0].toUpperCase() + currentRole.slice(1)}Home`
-        )
+        setAppNavigation(`${userRole[0].toUpperCase() + userRole.slice(1)}Home`)
       );
     }
-  }, [currentRole]);
+  }, [userRole]);
 
   const setNav = compo => {
     dispatch(setAppNavigation(compo));
@@ -59,12 +59,16 @@ export default function NavigationBar() {
         <Navbar.Brand
           href="#"
           onClick={() =>
-            setNav(`${currentRole[0].toUpperCase() + currentRole.slice(1)}Home`)
+            setNav(
+              userRole
+                ? `${userRole[0].toUpperCase() + userRole.slice(1)}Home`
+                : ""
+            )
           }
         >
           Social Learning
         </Navbar.Brand>
-        {currentRole !== "pending" && (
+        {userDbInfo.ISAPPROVED === "approved" && (
           <>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -72,9 +76,7 @@ export default function NavigationBar() {
                 <Button
                   onClick={() =>
                     setNav(
-                      `${
-                        currentRole[0].toUpperCase() + currentRole.slice(1)
-                      }Home`
+                      `${userRole[0].toUpperCase() + userRole.slice(1)}Home`
                     )
                   }
                   variant="outline-dark"
@@ -88,7 +90,7 @@ export default function NavigationBar() {
                   Profile
                 </Button>
                 <NavDropdown title="Actions" id="basic-nav-dropdown">
-                  {roleActions[currentRole].map(action => (
+                  {roleActions[userRole].map(action => (
                     <Button
                       onClick={() => setNav(action.href)}
                       key={action.href}

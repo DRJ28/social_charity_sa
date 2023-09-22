@@ -1,5 +1,5 @@
 import React from "react";
-import Uploadimage from "./UploadImage";
+// import Uploadimage from "./UploadImage";
 
 export default function AdminHome() {
   return (
@@ -7,7 +7,7 @@ export default function AdminHome() {
       <div>AdminHome</div>
       <div>See Upcoming Events</div>
       <div>DashBoard</div>
-      <Uploadimage />
+      {/* <Uploadimage /> */}
     </>
   );
 }

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Form, Container, Button } from "react-bootstrap";
-import { insertUpdateUserDetails } from "./../reducer/usersSlice";
+import {
+  insertUpdateUserDetails,
+  setUserDbInfo,
+} from "./../reducer/usersSlice";
 import { pushToastNotification } from "./../reducer/appSlice";
 import { fetchPost } from "../utils/apiCalls";
 
@@ -31,6 +34,7 @@ export default function UserProfile() {
     // const response = await dispatch(insertUpdateUserDetails(data));
     const respo = await fetchPost("/user/insertUpdateDetails", data);
     dispatch(pushToastNotification(respo.msg));
+    dispatch(setUserDbInfo(respo));
   };
   return (
     <>
@@ -39,7 +43,7 @@ export default function UserProfile() {
         {userDbInfo?.first_name
           ? userDbInfo.first_name
           : userLoginInfo.given_name}
-        {(userDbInfo.role === "pending" || !userDbInfo.ISAPPROVED) && (
+        {userDbInfo.ISAPPROVED === "pending" && (
           <p>
             Your profile is pending for approval from admin, please contact
             admin
@@ -70,7 +74,7 @@ export default function UserProfile() {
             <Form.Select
               onChange={e => setUserRole(e.target.value)}
               aria-label="Default select example"
-              disabled={userDbInfo.role !== "pending" || userDbInfo.ISAPPROVED}
+              disabled={userDbInfo.ISAPPROVED != null}
             >
               <option value="student">Student</option>
               <option value="teacher">Teacher</option>
@@ -116,7 +120,7 @@ export default function UserProfile() {
             <Form.Control
               type="date"
               id="dateOfBirth"
-              defaultValue={dob.split("T")[0]}
+              defaultValue={dob?.split("T")[0]}
               onChange={e => setDob(e.target.value)}
               // defaultValue={last_name}
               aria-describedby="User Date of Birth"
@@ -157,7 +161,7 @@ export default function UserProfile() {
         <Button
           variant="primary"
           onClick={updateDetails}
-          disabled={!userDbInfo.ISAPPROVED}
+          disabled={userDbInfo.ISAPPROVED != null}
           style={{ float: "right", marginTop: "1em" }}
         >
           Submit

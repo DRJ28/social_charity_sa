@@ -23,7 +23,9 @@ export const fetchFileUpload = async (url, formData) => {
     });
     const result = await response.json();
     console.log("Success:", result);
+    return result;
   } catch (error) {
     console.error("Error:", error);
+    return error;
   }
 };

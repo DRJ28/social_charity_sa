@@ -13,18 +13,16 @@ export const usersSlice = createSlice({
   name: "users",
 
   initialState: {
-    userDbInfo: {
-      // role: "pending",
-      // first_name: "DheerajK",
-      // last_name: "Mehta",
-      // email: "dheerajMehta@gmail.com",
-    },
+    userDbInfo: {},
     userLoginInfo: {},
   },
 
   reducers: {
     setUserLoginInfo: (state, action) => {
       state.userLoginInfo = action.payload;
+    },
+    setUserDbInfo: (state, action) => {
+      state.userDbInfo = { ...state.userDbInfo, ...action.payload };
     },
   },
   extraReducers: builder => {
@@ -34,7 +32,10 @@ export const usersSlice = createSlice({
       })
       .addCase(fetchUserDetails.fulfilled, (state, action) => {
         console.log("getting user details completed");
-        localStorage.setItem("liu", action.payload.email);
+        localStorage.setItem(
+          "liu",
+          action.payload.USER_EMAILADDRESS || action.payload.email
+        );
         state.userDbInfo = action.payload;
       })
       .addCase(fetchUserDetails.rejected, (state, action) => {
@@ -43,6 +44,6 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { setUserLoginInfo } = usersSlice.actions;
+export const { setUserLoginInfo, setUserDbInfo } = usersSlice.actions;
 
 export default usersSlice.reducer;

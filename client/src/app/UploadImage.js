@@ -18,9 +18,6 @@ class Uploadimage extends Component {
     // select first item
     const file = e.target.files[0];
     this.setState({ selectedFile: file });
-    // console.log(e.target.files[0]);
-    // const formData = new FormData();
-    // formData.append("fileKey", file);
   };
 
   uploadFile = e => {
@@ -32,23 +29,6 @@ class Uploadimage extends Component {
     console.log(this.state.selectedFile);
 
     fetchFileUpload("/uploadFile", formData);
-    // axios
-    //   .post("http://localhost:3002/uploadfile", formData, {
-    //     headers: { "Content-Type": "multipart/form-data" },
-    //   })
-    //   .then(res => {
-    //     //console.log(res)
-    //     if (res.status === 200)
-    //       return this.setState({
-    //         sucessmessage: "File uploaded successfullyS3",
-    //       });
-    //   })
-    //   .catch(error => {
-    //     //console.error(error.response);
-    //     this.setState({
-    //       errormessage: error.response.statusText + " Please select the file",
-    //     });
-    //   });
   };
 
   render() {
@@ -70,9 +50,9 @@ class Uploadimage extends Component {
             htmlFor="uploadToS3"
             style={{ float: "right", marginTop: "1em", cursor: "pointer" }}
           >
-            Upload
+            Upload Files from System
           </Button>
-          <button> upload</button>
+          {/* <button> upload</button> */}
         </form>
       </div>
     );
