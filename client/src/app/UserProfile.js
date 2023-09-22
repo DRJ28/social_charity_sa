@@ -8,12 +8,16 @@ import { fetchPost } from "../utils/apiCalls";
 export default function UserProfile() {
   const dispatch = useDispatch();
   const { userDbInfo, userLoginInfo } = useSelector(({ users }) => users);
-  const [userRole, setUserRole] = useState("student");
-  const [first_name, setFirstName] = useState(userLoginInfo.given_name);
-  const [last_name, setLastName] = useState(userLoginInfo.family_name);
-  const [phone, setPhone] = useState();
-  const [address, setAddress] = useState("");
-  const [dob, setDob] = useState();
+  const [userRole, setUserRole] = useState(userDbInfo.USER_ROLE || "student");
+  const [first_name, setFirstName] = useState(
+    userDbInfo.FIRST_NAME || userLoginInfo.given_name
+  );
+  const [last_name, setLastName] = useState(
+    userDbInfo.LAST_NAME || userLoginInfo.family_name
+  );
+  const [phone, setPhone] = useState(userDbInfo.USER_PHONE_NUMBER || "");
+  const [address, setAddress] = useState(userDbInfo.USER_ADDRESS || "");
+  const [dob, setDob] = useState(userDbInfo.DATE_OF_BIRTH);
   const updateDetails = async () => {
     const data = {
       userRole,
@@ -35,7 +39,7 @@ export default function UserProfile() {
         {userDbInfo?.first_name
           ? userDbInfo.first_name
           : userLoginInfo.given_name}
-        {userDbInfo.role === "pending" && (
+        {(userDbInfo.role === "pending" || !userDbInfo.ISAPPROVED) && (
           <p>
             Your profile is pending for approval from admin, please contact
             admin
@@ -51,7 +55,7 @@ export default function UserProfile() {
             <Form.Control
               type="email"
               disabled
-              value={userDbInfo.email}
+              value={userDbInfo.email || userDbInfo.USER_EMAILADDRESS}
               aria-describedby="User Email Fixed"
             />
           </Col>
@@ -112,6 +116,7 @@ export default function UserProfile() {
             <Form.Control
               type="date"
               id="dateOfBirth"
+              defaultValue={dob.split("T")[0]}
               onChange={e => setDob(e.target.value)}
               // defaultValue={last_name}
               aria-describedby="User Date of Birth"
@@ -152,6 +157,7 @@ export default function UserProfile() {
         <Button
           variant="primary"
           onClick={updateDetails}
+          disabled={!userDbInfo.ISAPPROVED}
           style={{ float: "right", marginTop: "1em" }}
         >
           Submit
