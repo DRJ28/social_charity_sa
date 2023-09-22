@@ -14,10 +14,10 @@ export const usersSlice = createSlice({
 
   initialState: {
     userDbInfo: {
-      role: "admin",
-      first_name: "DheerajK",
-      last_name: "Mehta",
-      email: "dheerajMehta@gmail.com",
+      // role: "admin",
+      // first_name: "DheerajK",
+      // last_name: "Mehta",
+      // email: "dheerajMehta@gmail.com",
     },
     userLoginInfo: {},
   },
