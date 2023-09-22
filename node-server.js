@@ -16,6 +16,7 @@ console.log(process.env.NODE_ENV);
 app.use(express.static(__dirname + "/client/build"));
 
 app.use("/user", require("./server/routes/userRoute"));
+app.use("/admin", require("./server/routes/adminRoute"));
 
 app.post("/uploadFile", upload.single("file"), (req, res) => {
   console.log(process.env.AWS_BUCKET);

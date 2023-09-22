@@ -71,6 +71,7 @@ module.exports.insertUpdateUser = async (
         @DATE_OF_BIRTH  = ${dob},
         @LAST_NAME  = ${last_name},
         @LOGGED_IN_USER_ID = ${loggedinUser},
+        @ISAPPROVED = 'pending',
         @FIRST_NAME = ${first_name}`;
 
       console.log(result);
@@ -81,4 +82,15 @@ module.exports.insertUpdateUser = async (
       return "failed";
     }
   } catch (error) {}
+};
+
+module.exports.getAllUser = async () => {
+  try {
+    console.log("getting user from email");
+    const result = await sql.query`EXEC dbo.SP_GET_USERS`;
+    return result.recordset;
+  } catch (error) {
+    console.log(error);
+    return "failed";
+  }
 };

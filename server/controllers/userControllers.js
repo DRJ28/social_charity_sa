@@ -7,10 +7,10 @@ module.exports.getUserDetails_controller = async (req, res, next) => {
     dbInfo = {};
     if (dbResponse.length === 0) {
       dbInfo = {
-        role: "pending",
+        ISAPPROVED: null,
         first_name: given_name,
         last_name: family_name,
-        email,
+        USER_EMAILADDRESS: email,
       };
     } else {
       dbInfo = dbResponse[0];
@@ -30,7 +30,9 @@ module.exports.insertUpdateDetails_controller = async (req, res, next) => {
     const dbResponse = await insertUpdateUser(req.body, loggedinUser);
     console.log(dbResponse);
 
-    return res.status(200).json({ msg: "user pending for approval" });
+    return res
+      .status(200)
+      .json({ msg: "user pending for approval", ISAPPROVED: "pending" });
   } catch (err) {
     console.log(err);
     return res.status(400).json({
