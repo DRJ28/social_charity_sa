@@ -109,3 +109,19 @@ module.exports.approveEntryByAdmin = async (data, loggedinUser) => {
     return "failed";
   }
 };
+
+module.exports.uploadContentTeacher = async (data, loggedinUser) => {
+  try {
+    console.log("approve entry for candidate");
+    const result = await sql.query`EXEC dbo.SP_INSERT_UPDATE_RESOURCE 
+      @CONTENT_ID= ${data.topic},
+      @RESOURCE_TITLE= ${data.title},
+      @RESOURCE_DESCRIPTION = ${data.description},
+      @RESOURCE_LINK = ${data.fileLink},
+      @LOGGED_IN_USER_ID = ${loggedinUser}`;
+    return result.recordset;
+  } catch (error) {
+    console.log(error);
+    return "failed";
+  }
+};

@@ -18,7 +18,7 @@ const roleActions = {
     { href: "FeedBack", display: "Feed Back" },
   ],
   teacher: [
-    { href: "ApproveEnrollment", display: "Approve Enrollment" },
+    { href: "CreateContent", display: "Create Content" },
     { href: "ViewStudents", display: "View Students" },
     { href: "ViewTeachers", display: "View Teachers" },
     { href: "FeedBack", display: "Feed Back" },

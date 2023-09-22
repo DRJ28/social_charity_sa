@@ -17,12 +17,12 @@ app.use(express.static(__dirname + "/client/build"));
 
 app.use("/user", require("./server/routes/userRoute"));
 app.use("/admin", require("./server/routes/adminRoute"));
+app.use("/teacher", require("./server/routes/teacherRoute"));
 
-app.post("/uploadFile", upload.single("file"), (req, res) => {
-  console.log(process.env.AWS_BUCKET);
+app.post("/uploadFile", upload.single("file"), async (req, res) => {
   const { file } = req;
-  console.log(file);
-  const { error, key } = UploadToS3(file);
+  const { error, key } = await UploadToS3(file);
+  debugger;
   if (error) {
     res.status(500).send({ error });
   } else {
