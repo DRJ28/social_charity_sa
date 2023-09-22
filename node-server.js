@@ -17,13 +17,6 @@ app.use(express.static(__dirname + "/client/build"));
 
 app.use("/user", require("./server/routes/userRoute"));
 
-app.get("/getUserDetails", (req, res) => {
-  res.send({
-    name: "Dheeraj",
-    role: "Admin",
-  });
-});
-
 app.post("/uploadFile", upload.single("file"), (req, res) => {
   console.log(process.env.AWS_BUCKET);
   const { file } = req;
