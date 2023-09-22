@@ -1,0 +1,18 @@
+.gmail-login{
+    background: lightblue !important;
+}
+.hero-label{
+    padding: 1em;
+    font-weight: bold;
+    background: aliceblue;
+}
+.user-profile{
+    padding-top: 1em;
+}
+.user-profile>.row{
+    padding-top: 1em;
+}
+#basic-navbar-nav .btn{
+    /* padding: 0 1em; */
+    width: 100%
+}
