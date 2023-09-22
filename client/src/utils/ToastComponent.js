@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 export default function ToastComponent() {
   const { toastNotification } = useSelector(({ app }) => app);
   // const app = useSelector(({ app }) => app);
+
   return (
     <div
       aria-live="polite"
@@ -15,7 +16,7 @@ export default function ToastComponent() {
     >
       <ToastContainer position="top-end" className="p-3" style={{ zIndex: 1 }}>
         {toastNotification.map(toast => {
-          <Toast>
+          <Toast show>
             <Toast.Header>
               <img
                 src="holder.js/20x20?text=%20"
