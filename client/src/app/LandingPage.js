@@ -11,6 +11,8 @@ import TeacherHome from "./TeacherHome";
 import StudentHome from "./StudentHome";
 import ApproveEnrollment from "./ApproveEnrollment";
 import CreateContent from "./CreateContent";
+import ViewContent from "./ViewContent";
+import ViewQuiz from "./ViewQuiz";
 
 export default function LandingPage() {
   const app = useSelector(({ app }) => app);
@@ -30,6 +32,10 @@ export default function LandingPage() {
         return <StudentHome />;
       case "CreateContent":
         return <CreateContent />;
+      case "ViewContent":
+        return <ViewContent />;
+      case "ViewQuiz":
+        return <ViewQuiz />;
       default:
         return <ErrorPage />;
     }

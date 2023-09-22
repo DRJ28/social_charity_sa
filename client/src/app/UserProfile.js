@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Form, Container, Button } from "react-bootstrap";
-import {
-  insertUpdateUserDetails,
-  setUserDbInfo,
-} from "./../reducer/usersSlice";
+import { setUserDbInfo } from "./../reducer/usersSlice";
 import { pushToastNotification } from "./../reducer/appSlice";
 import { fetchPost } from "../utils/apiCalls";
 

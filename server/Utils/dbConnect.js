@@ -94,6 +94,18 @@ module.exports.getAllUser = async () => {
   }
 };
 
+module.exports.getAllContents = async () => {
+  try {
+    console.log("getting all contents for student");
+    debugger;
+    const result = await sql.query`EXEC dbo.SP_GET_RESOURCE_FOR_STUDENT`;
+    return result.recordset;
+  } catch (error) {
+    console.log(error);
+    return "failed";
+  }
+};
+
 module.exports.approveEntryByAdmin = async (data, loggedinUser) => {
   try {
     console.log("approve entry for candidate");

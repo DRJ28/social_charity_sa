@@ -18,6 +18,7 @@ app.use(express.static(__dirname + "/client/build"));
 app.use("/user", require("./server/routes/userRoute"));
 app.use("/admin", require("./server/routes/adminRoute"));
 app.use("/teacher", require("./server/routes/teacherRoute"));
+app.use("/student", require("./server/routes/studentRoute"));
 
 app.post("/uploadFile", upload.single("file"), async (req, res) => {
   const { file } = req;
@@ -29,9 +30,9 @@ app.post("/uploadFile", upload.single("file"), async (req, res) => {
     res.send({ msg: key });
   }
 });
-app.get("/getFile", async (req, res) => {
+app.post("/getFile", async (req, res) => {
   console.log("gettinf file");
-  const fileLink = await GetFileObject("IMG_20180324_182154.jpg");
+  const fileLink = await GetFileObject(req.body.link);
   console.log(fileLink);
   res.send({ file: fileLink });
 });

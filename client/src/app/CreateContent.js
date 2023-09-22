@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Row, Col, Form, Container, Button } from "react-bootstrap";
 import UploadFile from "./UploadFile";
 import { fetchFileUpload, fetchPost } from "../utils/apiCalls";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setAppNavigation } from "./../reducer/appSlice";
+import { setUploadFileContent } from "../reducer/teacherSlice";
 
 export default function CreateContent() {
+  const dispatch = useDispatch();
   const [module, setModule] = useState("1-AAAAQ");
   const [topic, setTopic] = useState("1-AAAAQ");
   const [title, setTitle] = useState("");
@@ -24,6 +27,11 @@ export default function CreateContent() {
     };
     const fileResp = await fetchPost("/teacher/uploadFileContent", data);
     // redirect to home
+    if (fileResp.data.status === "submitted") {
+      alert("Content Uploaded");
+      dispatch(setUploadFileContent(""));
+      dispatch(setAppNavigation(`TeacherHome`));
+    }
   };
   return (
     <>
