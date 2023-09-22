@@ -4,14 +4,14 @@ const aws = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { GetObjectCommand, PutObjectCommand } = aws;
 const s3 = new aws.S3Client({
-  region: "ap-south-1",
+  region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: "AKIAW3GVLVR3HYUDEX5C",
-    secretAccessKey: "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",
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
   },
 });
 // const BUCKET = process.env.AWS_BUCKET;
-const BUCKET = "demo-test-hack";
+const BUCKET = process.env.AWS_BUCKET;
 module.exports.GetFileObject = async urlKey => {
   console.log("creating command");
   const command = new GetObjectCommand({
@@ -23,8 +23,8 @@ module.exports.GetFileObject = async urlKey => {
 };
 
 module.exports.UploadToS3 = async file => {
+  console.log(process.env.AWS_BUCKET);
   const key = "uploaded" + file.originalname;
-  debugger;
   const command = new PutObjectCommand({
     Bucket: BUCKET,
     Key: key,
