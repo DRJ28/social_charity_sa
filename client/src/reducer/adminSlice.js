@@ -2,15 +2,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchGet, fetchPost } from "../utils/apiCalls";
 
 export const fetchPendingApprovals = createAsyncThunk(
-  "users/getPendingApprovals",
+  "admin/getPendingApprovals",
   async () => {
-    const respo = await fetchGet("/user/getPendingApprovals");
-    return respo;
+    const respo = await fetchGet("/admin/getPendingApprovals");
+    return respo.data;
   }
 );
 
 export const adminSlice = createSlice({
-  name: "users",
+  name: "admin",
 
   initialState: {
     pendingApprovalList: [],
@@ -20,6 +20,9 @@ export const adminSlice = createSlice({
     setAppNavigation: (state, action) => {
       state.appNavigation = action.payload;
       console.log(`Rendering component ${action.payload}`);
+    },
+    setPendingApproveList: (state, action) => {
+      state.pendingApprovalList = action.payload;
     },
   },
   extraReducers: builder => {
@@ -37,6 +40,6 @@ export const adminSlice = createSlice({
   },
 });
 
-export const { setAppNavigation } = adminSlice.actions;
+export const { setAppNavigation, setPendingApproveList } = adminSlice.actions;
 
 export default adminSlice.reducer;

@@ -75,7 +75,6 @@ module.exports.insertUpdateUser = async (
         @FIRST_NAME = ${first_name}`;
 
       console.log(result);
-      debugger;
       return result.recordset;
     } catch (error) {
       console.log(error);
@@ -87,7 +86,23 @@ module.exports.insertUpdateUser = async (
 module.exports.getAllUser = async () => {
   try {
     console.log("getting user from email");
-    const result = await sql.query`EXEC dbo.SP_GET_USERS`;
+    const result = await sql.query`EXEC dbo.SP_GET_USERS @NOTADMIN=1`;
+    return result.recordset;
+  } catch (error) {
+    console.log(error);
+    return "failed";
+  }
+};
+
+module.exports.approveEntryByAdmin = async (data, loggedinUser) => {
+  try {
+    console.log("approve entry for candidate");
+    const result = await sql.query`EXEC dbo.SP_INSERT_UPDATE_APPROVE_USER 
+      @USER_EMAILADDRESS= ${data.USER_EMAILADDRESS},
+      @USER_ID= ${data.USER_ID},
+      @USER_ROLE = ${data.USER_ROLE},
+      @LOGGED_IN_USER_ID = ${loggedinUser},
+      @ISAPPROVED = 'approved'`;
     return result.recordset;
   } catch (error) {
     console.log(error);

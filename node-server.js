@@ -41,7 +41,7 @@ app.get("/getUser", async (req, res) => {
   res.send({ data: result });
 });
 
-app.listen(8000, () => {
+app.listen(8080, () => {
   console.log("using bucket");
   connectionTest();
   console.log(process.env.AWS_BUCKET);
