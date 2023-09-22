@@ -8,7 +8,7 @@ function App() {
   const userDbInfo = useSelector(({ users }) => users.userDbInfo);
   return (
     <>
-      {userDbInfo.role ? (
+      {userDbInfo.role || userDbInfo.ISAPPROVED === false ? (
         <LandingPage />
       ) : (
         <>

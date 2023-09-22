@@ -1,9 +1,33 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Form, Container, Button } from "react-bootstrap";
+import { insertUpdateUserDetails } from "./../reducer/usersSlice";
+import { pushToastNotification } from "./../reducer/appSlice";
+import { fetchPost } from "../utils/apiCalls";
 
 export default function UserProfile() {
+  const dispatch = useDispatch();
   const { userDbInfo, userLoginInfo } = useSelector(({ users }) => users);
+  const [userRole, setUserRole] = useState("student");
+  const [first_name, setFirstName] = useState(userLoginInfo.given_name);
+  const [last_name, setLastName] = useState(userLoginInfo.family_name);
+  const [phone, setPhone] = useState();
+  const [address, setAddress] = useState("");
+  const [dob, setDob] = useState();
+  const updateDetails = async () => {
+    const data = {
+      userRole,
+      first_name,
+      last_name,
+      address,
+      phone,
+      email: userLoginInfo.email,
+      dob,
+    };
+    // const response = await dispatch(insertUpdateUserDetails(data));
+    const respo = await fetchPost("/user/insertUpdateDetails", data);
+    dispatch(pushToastNotification(respo.msg));
+  };
   return (
     <>
       <div className="hero-label">
@@ -33,22 +57,22 @@ export default function UserProfile() {
           </Col>
         </Row>
 
-        {(userDbInfo.role !== "pending" || userDbInfo.role === "admin") && (
-          <Row>
-            <Col xs={12} sm={4}>
-              User Type
-            </Col>
-            <Col xs={12} sm={8}>
-              <Form.Select
-                aria-label="Default select example"
-                disabled={userDbInfo.role !== "admin"}
-              >
-                <option value="student">Student</option>
-                <option value="teacher">Teacher</option>
-              </Form.Select>
-            </Col>
-          </Row>
-        )}
+        {/* {(userDbInfo.role !== "pending" || userDbInfo.role === "admin") && ( */}
+        <Row>
+          <Col xs={12} sm={4}>
+            User Type
+          </Col>
+          <Col xs={12} sm={8}>
+            <Form.Select
+              onChange={e => setUserRole(e.target.value)}
+              aria-label="Default select example"
+              disabled={userDbInfo.role !== "pending" || userDbInfo.ISAPPROVED}
+            >
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+            </Form.Select>
+          </Col>
+        </Row>
 
         <Row>
           <Col xs={12} sm={4}>
@@ -58,6 +82,8 @@ export default function UserProfile() {
             <Form.Control
               type="text"
               id="firstName"
+              onChange={e => setFirstName(e.target.value)}
+              defaultValue={first_name}
               aria-describedby="User First Name"
             />
           </Col>
@@ -71,7 +97,24 @@ export default function UserProfile() {
             <Form.Control
               type="text"
               id="lastName"
+              onChange={e => setLastName(e.target.value)}
+              defaultValue={last_name}
               aria-describedby="User Last Name"
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={12} sm={4}>
+            Date Of Birth
+          </Col>
+          <Col xs={12} sm={8}>
+            <Form.Control
+              type="date"
+              id="dateOfBirth"
+              onChange={e => setDob(e.target.value)}
+              // defaultValue={last_name}
+              aria-describedby="User Date of Birth"
             />
           </Col>
         </Row>
@@ -84,7 +127,9 @@ export default function UserProfile() {
             <Form.Control
               type="text"
               id="phoneNumber"
-              aria-describedby="User Last Name"
+              defaultValue={phone}
+              onChange={e => setPhone(e.target.value)}
+              aria-describedby="User Phone Number"
             />
           </Col>
         </Row>
@@ -97,12 +142,18 @@ export default function UserProfile() {
             <Form.Control
               as="textarea"
               id="address"
+              value={address}
+              onChange={e => setAddress(e.target.value)}
               aria-describedby="User Last Name"
             />
           </Col>
         </Row>
 
-        <Button variant="primary" style={{ float: "right", marginTop: "1em" }}>
+        <Button
+          variant="primary"
+          onClick={updateDetails}
+          style={{ float: "right", marginTop: "1em" }}
+        >
           Submit
         </Button>
       </Container>

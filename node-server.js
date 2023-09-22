@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config({ path: "./../.env" });
 const { UploadToS3, GetFileObject } = require("./server/Utils/s3");
+const { connectionTest, queryUserList } = require("./server/Utils/dbConnect");
 
 const multer = require("multer");
 const storage = require("multer").memoryStorage();
@@ -41,8 +42,14 @@ app.get("/getFile", async (req, res) => {
   res.send({ file: fileLink });
 });
 
+app.get("/getUser", async (req, res) => {
+  const result = await queryUserList();
+  res.send({ data: result });
+});
+
 app.listen(8080, () => {
   console.log("using bucket");
+  connectionTest();
   console.log(process.env.AWS_BUCKET);
   console.log("server server is listening on port 8080");
 });

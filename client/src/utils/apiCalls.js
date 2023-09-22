@@ -8,6 +8,7 @@ export const fetchPost = async (url, data) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "loggedin-user": localStorage.getItem("liu"),
     },
     body: JSON.stringify(data),
   });

@@ -20,9 +20,11 @@ export default function GmailLogin() {
     dispatch(setUserLoginInfo(userData));
     dispatch(fetchUserDetails(userData));
   };
+
   const errorMessage = error => {
     console.log(error);
   };
+
   return (
     <Alert variant={"light"} className="gmail-login">
       <Row>

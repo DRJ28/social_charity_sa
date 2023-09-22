@@ -14,7 +14,7 @@ export const usersSlice = createSlice({
 
   initialState: {
     userDbInfo: {
-      // role: "admin",
+      // role: "pending",
       // first_name: "DheerajK",
       // last_name: "Mehta",
       // email: "dheerajMehta@gmail.com",
@@ -34,12 +34,12 @@ export const usersSlice = createSlice({
       })
       .addCase(fetchUserDetails.fulfilled, (state, action) => {
         console.log("getting user details completed");
+        localStorage.setItem("liu", action.payload.email);
         state.userDbInfo = action.payload;
       })
       .addCase(fetchUserDetails.rejected, (state, action) => {
         console.log("getting user details rejected");
       });
-    //   .addCase(increment, (state, action) => {});
   },
 });
 
