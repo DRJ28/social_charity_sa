@@ -5,6 +5,7 @@ export const appSlice = createSlice({
 
   initialState: {
     appNavigation: "Home",
+    toastNotification: [],
   },
 
   reducers: {
@@ -12,9 +13,15 @@ export const appSlice = createSlice({
       state.appNavigation = action.payload;
       console.log(`Rendering component ${action.payload}`);
     },
+    pushToastNotification: (state, action) => {
+      state.toastNotification = [
+        ...state.toastNotification,
+        ...[action.payload],
+      ];
+    },
   },
 });
 
-export const { setAppNavigation } = appSlice.actions;
+export const { setAppNavigation, pushToastNotification } = appSlice.actions;
 
 export default appSlice.reducer;

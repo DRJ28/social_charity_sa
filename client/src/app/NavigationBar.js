@@ -34,7 +34,10 @@ const roleActions = {
 export default function NavigationBar() {
   const dispatch = useDispatch();
   const { userLoginInfo, userDbInfo } = useSelector(({ users }) => users);
-  const currentRole = userDbInfo.role;
+  let currentRole = userDbInfo.role;
+  if (!userDbInfo.ISAPPROVED) {
+    currentRole = "pending";
+  }
   useEffect(() => {
     if (currentRole === "pending") {
       dispatch(setAppNavigation("UserProfile"));

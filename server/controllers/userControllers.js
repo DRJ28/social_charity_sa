@@ -1,14 +1,36 @@
+const { getUserFromEmail, insertUpdateUser } = require("./../Utils/dbConnect");
+
 module.exports.getUserDetails_controller = async (req, res, next) => {
   try {
-    // TODO connect db and get info for emailid
-    console.log(req.body);
     const { email, family_name, given_name } = req.body;
-    return res.status(200).json({
-      role: "admin", // pending, teacher, student
-      first_name: "Dheeraj",
-      last_name: "Mehta",
-      email,
+    const dbResponse = await getUserFromEmail(email);
+    dbInfo = {};
+    if (dbResponse.length === 0) {
+      dbInfo = {
+        role: "pending",
+        first_name: given_name,
+        last_name: family_name,
+        email,
+      };
+    } else {
+      dbInfo = dbResponse[0];
+    }
+    return res.status(200).json(dbInfo);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      error: "Error occurred",
     });
+  }
+};
+
+module.exports.insertUpdateDetails_controller = async (req, res, next) => {
+  try {
+    const loggedinUser = req.headers["loggedin-user"];
+    const dbResponse = await insertUpdateUser(req.body, loggedinUser);
+    console.log(dbResponse);
+
+    return res.status(200).json({ msg: "user pending for approval" });
   } catch (err) {
     console.log(err);
     return res.status(400).json({
