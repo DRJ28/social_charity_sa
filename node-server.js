@@ -41,9 +41,9 @@ app.get("/getUser", async (req, res) => {
   res.send({ data: result });
 });
 
-app.listen(8080, () => {
+app.listen(8000, () => {
   console.log("using bucket");
   connectionTest();
   console.log(process.env.AWS_BUCKET);
-  console.log("server server is listening on port 8080");
+  console.log("server server is listening on port 8000");
 });
